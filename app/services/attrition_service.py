@@ -1,10 +1,18 @@
+from pathlib import Path
+
 import joblib
 import pandas as pd
 
 
-MODEL_PATH = "models/attrition_model.joblib"
+# Get the absolute path of the app directory
+BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Model location: app/ml/attrition_model.joblib
+MODEL_PATH = BASE_DIR / "ml" / "attrition_model.joblib"
+
+# Load trained attrition model
 model = joblib.load(MODEL_PATH)
+
 
 FEATURES = [
     "age",
