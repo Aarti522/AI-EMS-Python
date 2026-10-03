@@ -1,7 +1,18 @@
+from pathlib import Path
+
 import joblib
 import pandas as pd
 
-model = joblib.load("models/performance_model.joblib")
+
+# app directory ka absolute path
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Model location: app/ml/performance_model.joblib
+MODEL_PATH = BASE_DIR / "ml" / "performance_model.joblib"
+
+# Load trained performance model
+model = joblib.load(MODEL_PATH)
+
 
 FEATURES = [
     "attendancePercentage",
