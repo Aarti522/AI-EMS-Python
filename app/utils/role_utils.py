@@ -1,11 +1,16 @@
 from fastapi import HTTPException
 
 
-VALID_ROLES = {"HR", "MANAGER", "EMPLOYEE"}
+VALID_ROLES = {
+    "ADMIN",
+    "HR",
+    "MANAGER",
+    "EMPLOYEE"
+}
 
 
 def validate_role(role: str) -> str:
-    normalized_role = role.upper()
+    normalized_role = str(role).strip().upper()
 
     if normalized_role not in VALID_ROLES:
         raise HTTPException(
