@@ -14,7 +14,13 @@ router = APIRouter(
 )
 
 
-ALLOWED_ROLES = {"HR", "MANAGER", "EMPLOYEE"}
+# All valid AI-EMS roles
+ALLOWED_ROLES = {
+    "ADMIN",
+    "HR",
+    "MANAGER",
+    "EMPLOYEE"
+}
 
 
 @router.post(
@@ -23,15 +29,17 @@ ALLOWED_ROLES = {"HR", "MANAGER", "EMPLOYEE"}
 )
 async def chatbot(request: ChatRequest):
 
-    role = request.role.upper()
+    # Safely normalize role
+    role = str(request.role).strip().upper()
 
+    # Validate role
     if role not in ALLOWED_ROLES:
         raise HTTPException(
             status_code=400,
             detail={
                 "success": False,
                 "data": None,
-                "message": "Invalid role"
+                "message": f"Invalid role: {role}"
             }
         )
 
@@ -43,14 +51,14 @@ async def chatbot(request: ChatRequest):
             context=request.context
         )
 
-        return {
-            "success": True,
-            "data": {
+        return ChatResponse(
+            success=True,
+            data={
                 "employeeId": request.employeeId,
                 "response": ai_response
             },
-            "message": "Chatbot response generated successfully"
-        }
+            message="Chatbot response generated successfully"
+        )
 
     except Exception as e:
         print("CHATBOT ERROR:", repr(e))

@@ -11,6 +11,9 @@ def generate_chat_response(
     employeeId: int,
     context=None
 ):
+    # Normalize role safely
+    role = str(role).strip().upper()
+
     context_text = (
         str(context)
         if context
@@ -27,6 +30,14 @@ AUTHORIZED EMS DATA:
 {context_text}
 
 ACCESS RULES:
+
+ADMIN:
+- You have full administrative access to the EMS features.
+- Answer HR, employee, attendance, leave, payroll, department,
+  performance and other EMS-related questions using only the
+  authorized data provided by the backend.
+- Do not invent employee-specific information.
+- Follow the same data restrictions provided by the backend.
 
 EMPLOYEE:
 - Answer only questions about their own authorized data.
@@ -46,6 +57,9 @@ IMPORTANT:
 - If required data is missing, clearly say that the required information
   is not available.
 - Do not claim that you accessed the database yourself.
+- Answer general HR questions normally, even when employee-specific
+  data is not available.
+- Keep responses concise and professional.
 
 User question:
 {message}
